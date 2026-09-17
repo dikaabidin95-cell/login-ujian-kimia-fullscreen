@@ -957,7 +957,6 @@ function aktifkanFullscreen() {
     document.documentElement.requestFullscreen()
       .then(function() {
 
-        // Kunci orientasi portrait jika didukung
         if (
           screen.orientation &&
           screen.orientation.lock
@@ -966,7 +965,7 @@ function aktifkanFullscreen() {
             .catch(function() {});
         }
 
-        document.removeEventListener(
+        document.documentElement.removeEventListener(
           "pointerdown",
           aktifkanFullscreen
         );
@@ -985,7 +984,7 @@ function aktifkanFullscreen() {
 
 }
 
-document.addEventListener(
+document.documentElement.addEventListener(
   "pointerdown",
   aktifkanFullscreen
 );
