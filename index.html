@@ -942,7 +942,53 @@
     mulaiScanner();
 
   };
+// ==================================================
+// FULLSCREEN — AKTIF PADA SENTUHAN PERTAMA SISWA
+// ==================================================
 
+function aktifkanFullscreen() {
+
+  if (document.fullscreenElement) {
+    return;
+  }
+
+  if (document.documentElement.requestFullscreen) {
+
+    document.documentElement.requestFullscreen()
+      .then(function() {
+
+        // Kunci orientasi portrait jika didukung
+        if (
+          screen.orientation &&
+          screen.orientation.lock
+        ) {
+          screen.orientation.lock("portrait")
+            .catch(function() {});
+        }
+
+        document.removeEventListener(
+          "pointerdown",
+          aktifkanFullscreen
+        );
+
+      })
+      .catch(function(error) {
+
+        console.log(
+          "Fullscreen belum dapat diaktifkan:",
+          error
+        );
+
+      });
+
+  }
+
+}
+
+document.addEventListener(
+  "pointerdown",
+  aktifkanFullscreen
+);
 </script>
 
 
