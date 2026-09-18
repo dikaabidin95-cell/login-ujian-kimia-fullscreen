@@ -39,23 +39,49 @@
     }
 
     #reader {
-      width: 100%;
-      max-width: 500px;
-      height: 55vh;
-      min-height: 360px;
-      max-height: 600px;
-      margin: auto;
-      background: #000;
-      border-radius: 14px;
-      overflow: hidden;
-    }
+  width: 100%;
+  max-width: 500px;
+  height: 55vh;
+  min-height: 360px;
+  max-height: 600px;
+  margin: auto;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+}
 
     #reader video {
       width: 100% !important;
       height: 100% !important;
       object-fit: cover;
     }
+/* ==================================================
+   PENUTUP AREA SCANNER — PEMICU FULLSCREEN
+   ================================================== */
 
+.scan-start-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.60);
+  color: white;
+  font-size: 26px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.scan-start-overlay span {
+  padding: 22px 28px;
+  border: 3px solid white;
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.45);
+}
     #hasil {
       max-width: 500px;
       margin: 15px auto 0;
@@ -209,7 +235,21 @@
     Arahkan QR siswa ke kamera
   </div>
 
-  <div id="reader"></div>
+  <div id="reader">
+
+  <div
+    id="scanStartOverlay"
+    class="scan-start-overlay"
+    onclick="mulaiFullscreenDanScan()">
+
+    <span>
+      CLICK HERE<br>
+      TO SCAN
+    </span>
+
+  </div>
+
+</div>
 
   <div id="hasil">
 
@@ -943,51 +983,48 @@
 
   };
 // ==================================================
-// FULLSCREEN — AKTIF PADA SENTUHAN PERTAMA SISWA
+// FULLSCREEN — HANYA MELALUI TOMBOL SCAN
 // ==================================================
 
-function aktifkanFullscreen() {
+function mulaiFullscreenDanScan() {
 
   if (document.fullscreenElement) {
     return;
   }
 
-  if (document.documentElement.requestFullscreen) {
-
-    document.documentElement.requestFullscreen()
-      .then(function() {
-
-        if (
-          screen.orientation &&
-          screen.orientation.lock
-        ) {
-          screen.orientation.lock("portrait")
-            .catch(function() {});
-        }
-
-        document.documentElement.removeEventListener(
-          "pointerdown",
-          aktifkanFullscreen
-        );
-
-      })
-      .catch(function(error) {
-
-        console.log(
-          "Fullscreen belum dapat diaktifkan:",
-          error
-        );
-
-      });
-
+  if (!document.documentElement.requestFullscreen) {
+    return;
   }
 
-}
+  document.documentElement.requestFullscreen()
+    .then(function() {
 
-document.documentElement.addEventListener(
-  "pointerdown",
-  aktifkanFullscreen
-);
+      if (
+        screen.orientation &&
+        screen.orientation.lock
+      ) {
+        screen.orientation.lock("portrait")
+          .catch(function() {});
+      }
+
+      const overlay =
+        document.getElementById("scanStartOverlay");
+
+      if (overlay) {
+        overlay.style.display = "none";
+      }
+
+    })
+    .catch(function(error) {
+
+      console.log(
+        "Fullscreen belum dapat diaktifkan:",
+        error
+      );
+
+    });
+
+}
 </script>
 
 
