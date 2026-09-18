@@ -330,8 +330,9 @@
    */
 
   let scanner = null;
-  let sedangMemproses = false;
-  let siswaTerpilih = null;
+let sedangMemproses = false;
+let siswaTerpilih = null;
+let scanDiizinkan = false;
 
 
   /*
@@ -358,15 +359,18 @@
 
       function(decodedText) {
 
-        if (sedangMemproses) {
-          return;
-        }
+  if (!scanDiizinkan) {
+    return;
+  }
 
-        sedangMemproses = true;
+  if (sedangMemproses) {
+    return;
+  }
 
-        tampilkanHasil(decodedText);
+  sedangMemproses = true;
 
-      },
+  tampilkanHasil(decodedText);
+},
 
       function(errorMessage) {
 
@@ -1100,6 +1104,8 @@
 
 function mulaiFullscreenDanScan() {
 
+  scanDiizinkan = true;
+
   if (document.fullscreenElement) {
     return;
   }
@@ -1107,7 +1113,6 @@ function mulaiFullscreenDanScan() {
   if (!document.documentElement.requestFullscreen) {
     return;
   }
-
   document.documentElement.requestFullscreen()
     .then(function() {
 
