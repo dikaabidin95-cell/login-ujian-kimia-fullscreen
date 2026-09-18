@@ -229,27 +229,13 @@
 
 <body>
 
-  <h1>LOGIN UJIAN OSN</h1>
+  <h1>LOGIN UJIAN KIMIA FULLSCREEN</h1>
 
   <div class="subtitle">
     Arahkan QR siswa ke kamera
   </div>
 
-  <div id="reader">
-
-  <div
-    id="scanStartOverlay"
-    class="scan-start-overlay"
-    onclick="mulaiFullscreenDanScan()">
-
-    <span>
-      CLICK HERE<br>
-      TO SCAN
-    </span>
-
-  </div>
-
-</div>
+  <div id="reader"></div>
 
   <div id="hasil">
 
@@ -321,13 +307,29 @@
 
     .then(function() {
 
-      document.getElementById("hasil").innerHTML = `
-        <div class="menunggu">
-          MENUNGGU SCAN
-        </div>
-      `;
+  document.getElementById("hasil").innerHTML = `
+    <div class="menunggu">
+      MENUNGGU SCAN
+    </div>
+  `;
 
-    })
+  const overlay = document.createElement("div");
+
+  overlay.id = "scanStartOverlay";
+  overlay.className = "scan-start-overlay";
+
+  overlay.innerHTML = `
+    <span>
+      CLICK HERE<br>
+      TO SCAN
+    </span>
+  `;
+
+  overlay.onclick = mulaiFullscreenDanScan;
+
+  document.getElementById("reader").appendChild(overlay);
+
+})
 
     .catch(function(error) {
 
