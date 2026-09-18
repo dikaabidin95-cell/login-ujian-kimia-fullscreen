@@ -945,7 +945,44 @@
     "?id=" +
     encodeURIComponent(siswaTerpilih.id);
 
-  window.location.href = url;
+  // ==================================================
+  // TR-PAKET DIBUKA DI DALAM GITHUB
+  // GITHUB TETAP MENJADI WADAH UTAMA
+  // ==================================================
+
+  document.body.innerHTML = `
+    <div
+      id="ujianContainer"
+      style="
+        position:fixed;
+        inset:0;
+        width:100vw;
+        height:100vh;
+        margin:0;
+        padding:0;
+        background:#f3f8ff;
+        overflow:hidden;
+        z-index:99999;
+      "
+    >
+
+      <iframe
+        id="ujianFrame"
+        src="${url}"
+        allow="fullscreen; autoplay"
+        allowfullscreen
+        style="
+          display:block;
+          width:100%;
+          height:100%;
+          border:none;
+          margin:0;
+          padding:0;
+        "
+      ></iframe>
+
+    </div>
+  `;
 
 }
 
